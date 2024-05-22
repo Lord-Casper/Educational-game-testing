@@ -37,17 +37,44 @@
 
         #scratch-area {
             width: 80%;
-            height: 400px;
+            height: 100px;
             margin: 1em auto;
             border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        #game-instructions {
+        .block {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #FFD700;
+            border: 1px solid #B8860B;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #code-area {
             margin: 1em auto;
             padding: 1em;
             border: 1px solid #ccc;
             width: 80%;
             background-color: #e6f7ff;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .code-block {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #ADD8E6;
+            border: 1px solid #4682B4;
+            cursor: default;
+            user-select: none;
         }
     </style>
 </head>
@@ -61,7 +88,11 @@
             <button id="start-game">Start Game</button>
         </section>
         <section id="game-area" style="display: none;">
-            <div id="scratch-area"></div>
+            <div id="scratch-area">
+                <div class="block" onclick="addBlock('move')">move</div>
+                <!-- Add more blocks as needed -->
+            </div>
+            <div id="code-area"></div>
             <div id="game-instructions"></div>
             <button id="run-code">Run Code</button>
         </section>
@@ -93,13 +124,29 @@
             document.getElementById('game-instructions').innerHTML = instructions;
         }
 
+        function addBlock(type) {
+            const block = document.createElement('div');
+            block.className = 'code-block';
+            block.textContent = type;
+            document.getElementById('code-area').appendChild(block);
+        }
+
         function runCode() {
-            // Simulate the execution of Scratch code
-            alert('Running code...');
-            // Simulate success for Level 1
-            alert('Alex moves forward and finds the key!');
-            loadLevel(2); // Load next level or show completion message
+            const codeBlocks = document.querySelectorAll('#code-area .code-block');
+            let code = [];
+            codeBlocks.forEach(block => {
+                code.push(block.textContent);
+            });
+
+            // Simple simulation of code execution
+            if (code.length > 0 && code[0] === 'move') {
+                alert('Alex moves forward and finds the key!');
+                loadLevel(2); // Load next level or show completion message
+            } else {
+                alert('Failed! Try again.');
+            }
         }
     </script>
 </body>
 </html>
+
